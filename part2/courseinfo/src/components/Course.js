@@ -1,19 +1,15 @@
 import React from 'react';
-import Header from './Header'
 import Content from './Content'
-import Total from './Total'
+
 
 const Course = (props) => {
-  const header = props.course.name
-  const content = props.course.parts
-
+  const halfStack = props.course[0]
+  const nodeJs = props.course[1]
+  const names = props.course.map((x) => x.name)
     
   return (
       <div>
-        {console.log('node is', header)}
-        <Header header={header} />
-        <Content content={content} />
-        <Total content={content} />
+        <Content halfStack={halfStack} nodeJs={nodeJs} names={names}/>
       </div>
     )
   }
