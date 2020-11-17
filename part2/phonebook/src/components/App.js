@@ -10,6 +10,7 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
+  const [showName, setShowName] = useState(persons)
 
   const addName = (event) => {
       event.preventDefault()
@@ -31,11 +32,16 @@ const App = () => {
       else {
         setPersons(persons.concat(personObject))
       }
-
       console.log('dupes is ', dupes)
       console.log('find is', persons.some(isDupe))
       setNewName('')
       setNewNumber('')
+  }
+
+  const searchName = (event) => {
+    event.preventDefault()
+    console.log('search clicked', event.target)
+
   }
 
   const handleNameChange = (event) => {
@@ -48,8 +54,15 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleNameSearch = (event) => {
+    console.log(event.target.value)
+  }
+
   return (
     <div>
+      <h2>Search</h2>
+      <form onSubmit={searchName}/>
+      <div></div>
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
         <div>
