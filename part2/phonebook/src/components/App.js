@@ -12,7 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [showName, setShowName] = useState(persons)
 
-  const addName = (event) => {
+  const addName = (event) => { {/*addName checks if a name already exists in the persons state */}
       event.preventDefault()
       console.log('button clicked', event.target)
       const personObject = {
@@ -62,7 +62,12 @@ const App = () => {
     <div>
       <h2>Search</h2>
       <form onSubmit={searchName}/>
-      <div></div>
+      <div>
+        <input 
+          value={'Hello'}
+          onChange={handleNameSearch}
+          />
+      </div>
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
         <div>
