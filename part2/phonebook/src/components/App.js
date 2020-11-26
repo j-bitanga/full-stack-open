@@ -10,7 +10,7 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
-  const [showName, setShowName] = useState(persons)
+  const [filterName, setFilterName] = useState('')
 
   const addName = (event) => { {/*addName checks if a name already exists in the persons state */}
       event.preventDefault()
@@ -38,11 +38,13 @@ const App = () => {
       setNewNumber('')
   }
 
-  const searchName = (event) => {
-    event.preventDefault()
-    console.log('search clicked', event.target)
+  const filteredNames = persons.filter(
+    person =>
+    person.name.toLocaleLowerCase().includes(filterName)
+  )
 
-  }
+  const namesToFilter = filterName ? filteredNames : persons
+
 
   const handleNameChange = (event) => {
       console.log(event.target.value)
@@ -54,19 +56,28 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const handleNameSearch = (event) => {
+  const handleNameFilter = (event) => {
     console.log(event.target.value)
   }
 
   return (
     <div>
       <h2>Search</h2>
-      <form onSubmit={searchName}/>
+      <form onSubmit={filterName}/>
       <div>
         <input 
-          value={'Hello'}
-          onChange={handleNameSearch}
+          value={filterName}
+          onChange={e => setFilterName(e.target.value.toLocaleLowerCase())}
           />
+          <hr />
+          {!filteredNames.length && (
+            <div>No name matches that criteria</div>
+          )}
+          {namesToFilter.map(person => (
+            <div key={person.name}>
+              <p>{person.name}</p>
+              </div>
+          ))}
       </div>
       <h2>Phonebook</h2>
       <form onSubmit={addName}>
@@ -87,12 +98,6 @@ const App = () => {
           {console.log(persons)}
         </div>
       </form>
-      <h2>Numbers</h2>
-      <ul>
-          {persons.map((person) =>
-            <Person key={person.name} person={person} />
-            )}
-      </ul>
     </div>
   )
 }
