@@ -12,14 +12,15 @@ const filteredNames = persons.filter(
 
   const namesToFilter = filterName ? filteredNames : persons
 
+     
   return (
     <div>
     <h2>Search</h2>
-    <form onSubmit={filterName}/>
+    <form />
     <div>
       <input 
         value={filterName}
-        onChange={e => setFilterName(e.target.value.toLocaleLowerCase())}
+        onChange={e => setFilterName(e.target.value.toLocaleLowerCase())} 
         />
         <hr />
         {!filteredNames.length && (
