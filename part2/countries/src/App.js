@@ -22,9 +22,17 @@ const App = () => {
     country.name.toLocaleLowerCase().includes(filterName)
   )
 
-  const namesToFilter = filterName ? filteredNames : countries
+  const returnInfo = () => {
+   
+    return (
+      <div>
+        <p>hello</p>
+        </div>
+    )
+    
+  }
 
-  console.log(countries)
+  const namesToFilter = filterName ? filteredNames : countries
 
   return (
     <div>
@@ -53,9 +61,12 @@ const App = () => {
             <h1>Languages</h1>
             <ol>
               {country.languages.map((language) => (
+                <div>
                 <li>{language.name}</li>
+                </div>
               ))}
             </ol>
+            
             <img src={country.flag} alt="Flag" height="150" width="150" />
             </div>
         )))}
@@ -64,6 +75,9 @@ const App = () => {
         (namesToFilter.map(country => (
           <div key={country.name}>
             <p>{country.name}</p>
+            <button onClick={console.log('this is working fucking idot')}>
+              show 
+            </button>
             </div>
         )))}
     </div>
