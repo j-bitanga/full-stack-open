@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+
 const App = () => {
   const [ countries, setCountries ] = useState([]) 
   const [filterName, setFilterName] = useState('')
+  const [showAll, setShowAll] = useState(false)
+  const [showCountry, setShowCountry] = ([])
 
   const hook = () => {
     console.log('effect')
@@ -22,18 +25,12 @@ const App = () => {
     country.name.toLocaleLowerCase().includes(filterName)
   )
 
-  const returnInfo = () => {
-   
-    return (
-      <div>
-        <p>hello</p>
-        </div>
-    )
-    
-  }
-
   const namesToFilter = filterName ? filteredNames : countries
 
+  const handleClick = (props) => {
+    console.log(props)
+  }
+  
   return (
     <div>
     <h2>Search Countries</h2>
@@ -75,8 +72,8 @@ const App = () => {
         (namesToFilter.map(country => (
           <div key={country.name}>
             <p>{country.name}</p>
-            <button onClick={console.log('this is working fucking idot')}>
-              show 
+            <button onClick={() => handleClick(country)}>
+              show
             </button>
             </div>
         )))}
