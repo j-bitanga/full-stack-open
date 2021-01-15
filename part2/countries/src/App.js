@@ -3,10 +3,9 @@ import axios from 'axios'
 
 
 const App = () => {
-  const [ countries, setCountries ] = useState([]) 
+  const [countries, setCountries ] = useState([]) 
   const [filterName, setFilterName] = useState('')
-  const [showAll, setShowAll] = useState(false)
-  const [showCountry, setShowCountry] = ([])
+  const [showCountry, setShowCountry] = useState(false)
 
   const hook = () => {
     console.log('effect')
@@ -27,8 +26,10 @@ const App = () => {
 
   const namesToFilter = filterName ? filteredNames : countries
 
-  const handleClick = (props) => {
-    console.log(props)
+  const handleClick = (e) => {
+    setShowCountry(!showCountry)
+    console.log(e.currentTarget.id)
+    const currentId = e.currentTarget.id
   }
   
   return (
@@ -58,7 +59,7 @@ const App = () => {
             <h1>Languages</h1>
             <ol>
               {country.languages.map((language) => (
-                <div>
+                <div key={language.name}>
                 <li>{language.name}</li>
                 </div>
               ))}
@@ -72,9 +73,10 @@ const App = () => {
         (namesToFilter.map(country => (
           <div key={country.name}>
             <p>{country.name}</p>
-            <button onClick={() => handleClick(country)}>
-              show
+            <button id={country.name} onClick={handleClick}>
+            {showCountry ? 'hide' : 'show'}
             </button>
+            {showCountry ? <p>{country.capital}</p> : null  }
             </div>
         )))}
     </div>
