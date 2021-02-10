@@ -2,10 +2,9 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
-const Weather = (props) => {
-	const capital = props.capital.toLowerCase()
+const Weather = ({capital}) => { 
     const [weather, setWeather] = useState('')
-	const access_key = '0d660f5a8b3ecfc824dc049f544d9cbe'
+	const access_key = process.env.REACT_APP_API_KEY
 	
 	useEffect(()=> {
 	  axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${access_key}`)
@@ -13,9 +12,15 @@ const Weather = (props) => {
 		setWeather(response.data)
 	})
 },[])
-	
+
+if ( !weather ) {
+	return (
+		<div></div>
+	)
+}
 	  return (
 		  <div>
+			  {console.log(weather)}
 			  Temperature: {weather.main['temp']}<br></br>
 			  Wind Speed: {weather.wind['speed']}
 		  </div>
