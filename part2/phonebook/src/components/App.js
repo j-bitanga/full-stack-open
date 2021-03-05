@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Person from './Person'
 import Search from './Search'
 import Add from './Add'
-import axios from 'axios'
+import personService from '../services/persons'
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -10,25 +9,55 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
 
-   {/*This gets rendered immediately after the first render */}
-  const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
-  }
-  {/* useEffect specifies how often the effect is run -> empty array "[]" means it is only run along with the first render */}
-  useEffect(hook, []) 
+  useEffect(() => {
+    personService
+    .getAll()
+    .then(initialPersons => {
+      console.log('initialPersons is: ', initialPersons)
+      setPersons(initialPersons)
+    })
+ }, [])
 
-  console.log('render', persons.length, 'persons');
+ const deleteItem = (id) => {
+  personService
+  .remove(id)
+  .then(() => {
+    setPersons(persons.filter(p => p.id !== id))
+  })
+  
+ }
+
+ const addItem = (personObject) => {
+  personService
+  .create(personObject)
+  .then(returnedPerson => {
+    setPersons(persons.concat(returnedPerson))
+  })
+ }
+
+ const updateItem = (id, personObject) => {
+ const personFind = persons.find(p => p.id === id) /*find the person ID */
+ const changedPerson = {...personFind, number: personObject.number} /*Create copy of object and change the specified attribute */
+
+ console.log('Person find is: ', personFind)
+ console.log('changed person is: ', changedPerson)
+ console.log('current persons: ', persons)
+
+
+  personService
+  .update(id, changedPerson)
+  .then(returnedPerson => {
+    setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+    console.log('returned person is:', returnedPerson)
+ })
+ console.log(persons)
+ }
 
   return (
     <div>
-      <Search filterName={filterName} setFilterName={setFilterName} persons={persons} />
-      <Add persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
+      <Search filterName={filterName} setFilterName={setFilterName} persons={persons} deleteItem={deleteItem}   />
+      <Add persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} addItem={addItem} updateItem={updateItem} />
+    
     </div>
   )
 }

@@ -1,15 +1,11 @@
 import React from 'react'
+import Remove from '../components/Remove'
 
 const Search = (props) => {
-   const persons = props.persons
-    const filterName = props.filterName
-    const setFilterName = props.setFilterName
-
-const filteredNames = persons.filter(
-    person =>
-    person.name.toLocaleLowerCase().includes(filterName)
-  )
-
+  const persons = props.persons
+  const filterName = props.filterName
+  const setFilterName = props.setFilterName
+  const filteredNames = persons.filter(person => person.name.toLocaleLowerCase().includes(filterName))
   const namesToFilter = filterName ? filteredNames : persons
 
      
@@ -27,8 +23,9 @@ const filteredNames = persons.filter(
           <div>No name matches that criteria</div>
         )}
         {namesToFilter.map(person => (
-          <div key={person.name}>
+          <div key={person.id}>
             <p>{person.name} {person.number}</p>
+            <Remove person={person} persons={persons} deleteItem={props.deleteItem}  />
             </div>
         ))}
     </div>

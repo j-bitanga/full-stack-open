@@ -1,4 +1,5 @@
 import React from 'react'
+import Update from './Update'
 
 const Add = (props) => {
     const persons = props.persons
@@ -16,22 +17,21 @@ const addName = (event) => { {/*addName checks if a name already exists in the p
           number: newNumber
       }
 
-      var isDupe = function(person) {
+      const isDupe = function(person) {
         return person.name === personObject.name
       }
 
-      var dupes = persons.filter(isDupe)
+      const dupes = persons.filter(isDupe)
 
       if (persons.some(isDupe) === true) {
         window.alert(personObject.name + '  already exists!')
+        console.log('The dupe person is: ', personObject.name)
+        Update(dupes, personObject, props.updateItem)
       }
       else {
-        setPersons(persons.concat(personObject))
+        props.addItem(personObject)
       }
-      console.log('dupes is ', dupes)
-      console.log('find is', persons.some(isDupe))
-      setNewName('')
-      setNewNumber('')
+
     }
 
   const handleNameChange = (event) => {
@@ -71,5 +71,4 @@ const addName = (event) => { {/*addName checks if a name already exists in the p
 
 }
   
-
 export default Add
