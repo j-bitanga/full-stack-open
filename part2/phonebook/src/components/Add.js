@@ -2,8 +2,8 @@ import React from 'react'
 import Update from './Update'
 
 const Add = (props) => {
-    const persons = props.persons
-    const setPersons = props.setPersons
+    
+  const persons = props.persons
     const newName = props.newName
     const setNewName = props.setNewName
     const newNumber = props.newNumber

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Search from './Search'
 import Add from './Add'
+import Notification from './Notification'
 import personService from '../services/persons'
 
 const App = () => {
@@ -8,6 +9,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     personService
@@ -24,6 +26,14 @@ const App = () => {
   .then(() => {
     setPersons(persons.filter(p => p.id !== id))
   })
+  /*.catch(event => {
+    setErrorMessage(
+      `Person was removed from the server`
+    )
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  })*/
   
  }
 
@@ -32,6 +42,10 @@ const App = () => {
   .create(personObject)
   .then(returnedPerson => {
     setPersons(persons.concat(returnedPerson))
+    setErrorMessage(`${returnedPerson.name} was added`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   })
  }
 
@@ -50,13 +64,15 @@ const App = () => {
     setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
     console.log('returned person is:', returnedPerson)
  })
+ 
  console.log(persons)
  }
 
   return (
     <div>
       <Search filterName={filterName} setFilterName={setFilterName} persons={persons} deleteItem={deleteItem}   />
-      <Add persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} addItem={addItem} updateItem={updateItem} />
+      <Notification message={errorMessage}/>
+      <Add persons={persons} setPersons={setPersons} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} addItem={addItem} updateItem={updateItem} errorMessage={errorMessage}  />
     
     </div>
   )
