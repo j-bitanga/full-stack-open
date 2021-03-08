@@ -4,7 +4,11 @@ const Notification = ({message}) => {
     }
 
     return (
-        <div className='success'>{message}</div>
+        <>
+    
+        {message.includes("successfully") && (<div className='success'>{message}</div>)}
+        {message.includes("error") && (<div className='error'>{message}</div>)}
+          </>
     )
 }
 

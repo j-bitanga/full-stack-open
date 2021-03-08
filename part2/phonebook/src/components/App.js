@@ -9,7 +9,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -25,15 +25,18 @@ const App = () => {
   .remove(id)
   .then(() => {
     setPersons(persons.filter(p => p.id !== id))
-  })
-  /*.catch(event => {
-    setErrorMessage(
-      `Person was removed from the server`
-    )
+    setErrorMessage(`Removed successfully`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
-  })*/
+  })
+  .catch(error => {
+    setErrorMessage(`error`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+    setPersons(persons.filter(p => p.id !== id))
+  })
   
  }
 
@@ -42,12 +45,19 @@ const App = () => {
   .create(personObject)
   .then(returnedPerson => {
     setPersons(persons.concat(returnedPerson))
-    setErrorMessage(`${returnedPerson.name} was added`)
+    setErrorMessage(`${returnedPerson.name} was added successfully`)
     setTimeout(() => {
       setErrorMessage(null)
     }, 5000)
   })
- }
+  .catch(error => {
+    setErrorMessage(`error`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+    setPersons(persons.filter(p => p.id !== personObject.id))
+  })
+}
 
  const updateItem = (id, personObject) => {
  const personFind = persons.find(p => p.id === id) /*find the person ID */
@@ -62,8 +72,19 @@ const App = () => {
   .update(id, changedPerson)
   .then(returnedPerson => {
     setPersons(persons.map(p => p.id !== id ? p : returnedPerson))
+    setErrorMessage(`${returnedPerson.name} was updated successfully`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
     console.log('returned person is:', returnedPerson)
  })
+ .catch(error => {
+  setErrorMessage(`error`)
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 5000)
+  setPersons(persons.filter(p => p.id !== id))
+})
  
  console.log(persons)
  }
